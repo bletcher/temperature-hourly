@@ -1,2 +1,2 @@
 # temperature-hourly
-Models for hourly temperature data
+Models for hourly stream temperature data
