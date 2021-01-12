@@ -36,9 +36,12 @@ d <- left_join(d1, sites, by = "siteID")
 
 ```{r graph raw data}
 
-ggplot(d, aes(dateTime, temp)) +
+ggplot(d %>% filter(
+  #  siteID =="FORKED"
+  ), aes(dateTime, temp)) +
   geom_point() +
   facet_wrap(~siteID)
+#
 
 ```
 
