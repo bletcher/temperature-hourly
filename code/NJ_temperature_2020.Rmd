@@ -1,0 +1,44 @@
+---
+title: "Untitled"
+author: "Ben Letcher"
+date: "1/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+library(tidyverse)
+```
+
+```{r get raw data}
+sites <- read.csv('./dataIn/NJTU_sites_2020_forUSGS.csv') %>%
+  rename(siteID = Site) %>%
+  mutate(siteID = toupper(siteID))
+
+
+d1 <- read.csv('./dataIn/NJ_temperatures_2020.csv') %>% 
+  rename(temp = temp_c,
+         siteID = site_id) %>%
+  mutate(dateTime = mdy_hm(d$datetime),
+         siteID = toupper(siteID))
+
+# not renaming watersheds for now
+# > unique(d$watershed)
+# [1] "musky"       "flat"        "pohat"       "Lopat"       "Paulinskill"
+# > unique(sites$Watershed)
+# [1] "Musconetcong" "Flatbrook"    "Pohatcong"    "Lopatcong"    "Paulinskill" 
+
+d <- left_join(d1, sites, by = "siteID")
+```
+
+```{r graph raw data}
+
+ggplot(d, aes(dateTime, temp)) +
+  geom_point() +
+  facet_wrap(~siteID)
+
+```
+
